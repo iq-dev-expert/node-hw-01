@@ -1,3 +1,4 @@
+const { program } = require('commander');
 const {
   getListContacts,
   getContactById,
@@ -5,16 +6,26 @@ const {
   upDateContact,
   removeContact,
 } = require('./contacts');
-// const argv = require('yargs').argv;
+
+program
+  .option('-a, --action, <type>')
+  .option('-i, --id, <type>')
+  .option('-n, --name, <type>')
+  .option('-e, --email, <type>')
+  .option('-p, --phone, <type>');
+
+program.parse();
+
+const options = program.opts();
 
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
-    case 'list':
+    case 'getList':
       const contactsList = await getListContacts();
-      console.log(contactsList);
+      console.table(contactsList);
       break;
 
-    case 'get':
+    case 'getById':
       const contactItem = await getContactById(id);
       console.log(contactItem);
       break;
@@ -39,22 +50,4 @@ async function invokeAction({ action, id, name, email, phone }) {
   }
 }
 
-// invokeAction({ action: 'list' });
-// invokeAction({ action: 'get', id: 'vza2RIzNGIwutCVCs4mCL' });
-// invokeAction({
-//   action: 'add',
-//   name: 'Test',
-//   email: 'test@mail.com',
-//   phone: '1111111',
-// });
-// invokeAction({
-//   action: 'update',
-//   id: 'jenR2WKROCAg983FQbzY',
-//   name: 'newTest',
-//   email: 'test@mail.com',
-//   phone: '1111111',
-// });
-invokeAction({
-  action: 'remove',
-  id: 'qdggE76Jtbfd9eWJHrssH',
-});
+invokeAction(options);
