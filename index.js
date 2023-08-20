@@ -1,6 +1,6 @@
 const { program } = require('commander');
 const {
-  getListContacts,
+  getContactList,
   getContactById,
   addContact,
   upDateContact,
@@ -21,7 +21,7 @@ const options = program.opts();
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case 'getList':
-      const contactsList = await getListContacts();
+      const contactsList = await getContactList();
       console.table(contactsList);
       break;
 
